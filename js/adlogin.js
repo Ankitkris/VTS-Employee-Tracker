@@ -129,7 +129,7 @@ function validateLogin() {
                 alert('Login successful!');
                 // Redirect or handle successful login here
             } else {
-                errorMessage.textContent = 'Invalid email or password.';
+                errorMessage.textContent = 'Invalid Employee ID or password.';
                 errorMessage.style.display = 'block';
             }
         }

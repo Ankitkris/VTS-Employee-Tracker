@@ -11,7 +11,7 @@ document.getElementById('forgot-password-form').addEventListener('submit', funct
     alert('OTP sent successfully');
     setTimeout(() => {
         // Simulate redirect to verify OTP page
-        window.location.href = '/verifyOTP.html?employeeId=' + encodeURIComponent(id);
+        window.location.href = '../html/verifyOTP.html?employeeId=' + encodeURIComponent(id);
     }, 2000);
 });
 

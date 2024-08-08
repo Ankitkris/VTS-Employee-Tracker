@@ -72,7 +72,7 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
         alert('Password reset successfully');
         setTimeout(() => {
             // Simulate redirect to login page
-            window.location.href = '/welcome.html';
+            window.location.href = '../html/welcome.html';
         }, 2000);
     } else {
         alert('Password does not meet all requirements.');

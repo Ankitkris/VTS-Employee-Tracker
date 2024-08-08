@@ -11,7 +11,7 @@ document.getElementById('verify-otp-form').addEventListener('submit', function (
     alert('OTP verified successfully');
     setTimeout(() => {
         // Simulate redirect to reset password page
-        window.location.href = '/reset-pswd.html';
+        window.location.href = '../html/reset-pswd.html';
     }, 2000);
 });
 
