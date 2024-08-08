@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to VTS Employee Tracking System</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: rgb(2, 0, 36);
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+        }
+
+        .welcome-container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .typing-box {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid black;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            z-index: 1;
+        }
+
+        .typing-text {
+            font-size: 5rem;
+            color: whitesmoke;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 0.15em solid gray;
+            animation: typing 3.5s steps(40, end) 1s forwards, blink-caret 0.75s step-end infinite;
+            width: 0;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: mediumslateblue;
+            }
+        }
+
+        .typing-box p {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            font-weight: bold;
+            color: aliceblue;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .typing-text {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .welcome-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .welcome-button {
+            background-color: #5e057e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .welcome-button:hover {
+            background-color: #299d00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="welcome-container">
+        <div class="typing-box">
+            <img src="file.jpg" alt="Company Logo" class="logo">
+            <div class="typing-text">Welcome to VTS Employee Tracking System!</div>
+            <div class="welcome-buttons">
+                <a href="/emlogin.html" class="welcome-button">Employee Login</a>
+                <a href="/adlogin.html" class="welcome-button">Admin Login</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        @charset "ISO-8859-1";
+
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: rgb(2, 0, 36);
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+        }
+
+        .form-container {
+            background-color: #fff;
+            width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #5e057e;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5e057e;
+            text-align: left;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            display: inline-block;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 34%;
+            font-size: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #5e057e;
+        }
+
+        button {
+            background-color: #5e057e;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 10px auto;
+        }
+
+        button:hover {
+            background-color: #299d00;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+        }
+
+        .toggle-btns {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-passcode,
+        .btn-userid {
+            background-color: #5e057e;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 0 10px;
+        }
+
+        .btn-passcode.active,
+        .btn-userid.active {
+            background-color: #299d00;
+        }
+
+        .form-group {
+            display: none;
+        }
+
+        .form-group.active {
+            display: block;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 25px;
+            top: 30%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-3 {
+            margin-top: 20px;
+        }
+
+        .mb-3 {
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password {
+            margin-top: 10px;
+        }
+
+        .forgot-password.hidden {
+            display: none;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+        }
+
+        .password-requirements {
+            text-align: left;
+            color: red;
+            font-size: 14px;
+            margin-top: -12px;
+            margin-bottom: 20px;
+            font-size: 10px;
+            margin-left: 20px;
+        }
+
+        .requirement {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .requirement#length-check,
+        .requirement#uppercase-check,
+        .requirement#lowercase-check,
+        .requirement#digit-check,
+        .requirement#special-check {
+            color: #555;
+        }
+
+        .validation-feedback {
+            text-align: left;
+            color: red;
+            font-size: 14px;
+            margin-top: -12px;
+            margin-bottom: 16px;
+        }
+
+        .validation-feedback.valid {
+            color: green;
+            font-size: 14px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="form-container">
+        <img src="file.jpg" alt="Company Logo" class="logo">
+        <h2>Admin Login</h2>
+
+        <div class="toggle-btns">
+            <button type="button" class="btn-passcode active" onclick="showPasscode()">Passcode</button>
+            <button type="button" class="btn-userid" onclick="showUserId()">User ID</button>
+        </div>
+
+        <div class="error-message" id="error-message"></div>
+
+        <form id="login-form">
+            <div class="form-group passcode-group active">
+                <input type="number" id="passcode" placeholder="Passcode" minlength="6" maxlength="6" pattern="\d{6}">
+                <div id="passcodeError" class="error-message"></div>
+            </div>
+            <div class="form-group userid-group">
+                <input type="text" id="empId" placeholder="Employee Id">
+                <div class="password-container">
+                    <input type="password" id="password" placeholder="Password">
+                    <span class="toggle-password" onclick="togglePassword()">
+                        <i class="fas fa-eye-slash"></i>
+                    </span>
+                </div>
+                <div id="passwordError" class="error-message"></div>
+                <div class="password-requirements">
+                    <p>Password must:</p>
+                    <span id="length-check" class="requirement">Be at least 8 characters long</span><br>
+                    <span id="uppercase-check" class="requirement">Contain at least one uppercase letter</span><br>
+                    <span id="lowercase-check" class="requirement">Contain at least one lowercase letter</span><br>
+                    <span id="digit-check" class="requirement">Contain at least one digit</span><br>
+                    <span id="special-check" class="requirement">Contain at least one special character</span>
+                </div>
+            </div>
+
+            <button type="button" onclick="validateLogin()">Login</button>
+
+            <div class="forgot-password hidden" id="forgot-password">
+                <a href="forgotpswd.html">Forgot password?</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function showPasscode() {
+            document.querySelector('.passcode-group').classList.add('active');
+            document.querySelector('.userid-group').classList.remove('active');
+            document.querySelector('.btn-passcode').classList.add('active');
+            document.querySelector('.btn-userid').classList.remove('active');
+            document.getElementById('forgot-password').classList.add('hidden');
+        }
+
+        function showUserId() {
+            document.querySelector('.passcode-group').classList.remove('active');
+            document.querySelector('.userid-group').classList.add('active');
+            document.querySelector('.btn-passcode').classList.remove('active');
+            document.querySelector('.btn-userid').classList.add('active');
+            document.getElementById('forgot-password').classList.remove('hidden');
+        }
+
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const passwordIcon = document.querySelector('.toggle-password i');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password';
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            }
+        }
+
+
+        function validateLogin() {
+            const empId = document.getElementById('empId').value;
+            const password = document.getElementById('password').value;
+            const passcode = document.getElementById('passcode').value;
+            const errorMessage = document.getElementById('error-message');
+            const passcodeError = document.getElementById('passcodeError');
+            const passwordError = document.getElementById('passwordError');
+
+            // Clear previous error messages
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
+            passcodeError.style.display = 'none';
+            passcodeError.textContent = '';
+            passwordError.style.display = 'none';
+            passwordError.textContent = '';
+
+            // Regular expression to match exactly 6 digits
+            const regexPasscode = /^\d{6}$/;
+
+            // EmpId pattern
+            const empIdPattern = /^VTS\d{7}$/;
+
+            // Determine which form is active
+            if (document.querySelector('.passcode-group').classList.contains('active')) {
+                // Passcode validation
+                if (!regexPasscode.test(passcode)) {
+                    passcodeError.textContent = 'Passcode must be exactly 6 digits.';
+                    passcodeError.style.display = 'block';
+                    return;
+                }
+            } else if (document.querySelector('.userid-group').classList.contains('active')) {
+                // User ID and Password validation
+                if (!empIdPattern.test(empId)) {
+                    errorMessage.textContent = 'Please enter a valid EmpId.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+
+                // Password validation criteria
+                const lengthCheck = /(?=.{8,})/;
+                const uppercaseCheck = /(?=.*[A-Z])/;
+                const lowercaseCheck = /(?=.*[a-z])/;
+                const digitCheck = /(?=.*\d)/;
+                const specialCheck = /(?=.[@$!%?&])/;
+
+                let isValid = true;
+                if (!lengthCheck.test(password)) {
+                    document.getElementById('length-check').style.color = 'red';
+                    isValid = false;
+                } else {
+                    document.getElementById('length-check').style.color = 'green';
+                }
+                if (!uppercaseCheck.test(password)) {
+                    document.getElementById('uppercase-check').style.color = 'red';
+                    isValid = false;
+                } else {
+                    document.getElementById('uppercase-check').style.color = 'green';
+                }
+                if (!lowercaseCheck.test(password)) {
+                    document.getElementById('lowercase-check').style.color = 'red';
+                    isValid = false;
+                } else {
+                    document.getElementById('lowercase-check').style.color = 'green';
+                }
+                if (!digitCheck.test(password)) {
+                    document.getElementById('digit-check').style.color = 'red';
+                    isValid = false;
+                } else {
+                    document.getElementById('digit-check').style.color = 'green';
+                }
+                if (!specialCheck.test(password)) {
+                    document.getElementById('special-check').style.color = 'red';
+                    isValid = false;
+                } else {
+                    document.getElementById('special-check').style.color = 'green';
+                }
+
+                if (!isValid) {
+                    errorMessage.textContent = 'Please meet all password requirements.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+            }
+
+            // Simulate a successful login for demonstration purposes
+            if (document.querySelector('.passcode-group').classList.contains('active')) {
+                if (passcode === '123456') { // Replace with actual passcode logic
+                    alert('Login successful with Passcode!');
+                    // Redirect or handle successful login here
+                } else {
+                    passcodeError.textContent = 'Invalid passcode.';
+                    passcodeError.style.display = 'block';
+                }
+            } else if (document.querySelector('.userid-group').classList.contains('active')) {
+                if (empId === 'VTS2222222' && password === 'Password123!') { // Replace with actual login logic
+                    alert('Login successful!');
+                    // Redirect or handle successful login here
+                } else {
+                    errorMessage.textContent = 'Invalid email or password.';
+                    errorMessage.style.display = 'block';
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
