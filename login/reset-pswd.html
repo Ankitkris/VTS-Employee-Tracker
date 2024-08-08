@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @charset "ISO-8859-1";
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: rgb(2,0,36);
+            background: linear-gradient(165deg, rgba(2,0,36,1) 0%, rgba(210,182,255,1) 0%, rgba(115,103,240,1) 74%);
+        }
+
+        .form-container {
+            background-color: #fff;
+            width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: auto;
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+        }
+
+        h2 {
+            color: #5e057e;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: calc(100% - 40px);
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            display: inline-block;
+            position: relative;
+        }
+
+        button {
+            background-color: #5e057e;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background-color: #299d00;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 25px;
+            top: 36%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            cursor: pointer;
+            color: #5e057e;
+        }
+
+        .validation-feedback {
+            text-align: left;
+            color: red;
+            font-size: 14px;
+            margin-top: -12px;
+            margin-bottom: 20px;
+            font-size: 10px;
+            margin-left: 20px;
+
+        }
+
+        .validation-feedback.valid {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h2>Reset Password</h2>
+        <form id="reset-password-form">
+            <div class="password-container">
+                <input type="password" id="new-password" placeholder="New Password" required />
+                <span class="toggle-password" onclick="togglePassword('new-password')">
+                    <i class="fas fa-eye-slash"></i>
+            </div>
+            <div class="password-container">
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+                <span class="toggle-password" onclick="togglePassword('confirm-password')">
+                    <i class="fas fa-eye-slash"></i>
+                </span>
+            </div>
+            </span>
+            <div class="validation-feedback" id="length-feedback">Password must be at least 8 characters long.</div>
+            <div class="validation-feedback" id="uppercase-feedback">Password must contain at least one uppercase
+                letter.</div>
+            <div class="validation-feedback" id="lowercase-feedback">Password must contain at least one lowercase
+                letter.</div>
+            <div class="validation-feedback" id="digit-feedback">Password must contain at least one digit.</div>
+            <div class="validation-feedback" id="special-feedback">Password must contain at least one special character
+                (@$!%*?&).</div>
+            <button type="submit">Reset Password</button>
+        </form>
+    </div>
+
+    <script>
+        function togglePassword(id) {
+            const passwordField = document.getElementById(id);
+            const icon = passwordField.nextElementSibling.querySelector('i');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        }
+
+        function validatePassword(password) {
+            const lengthCheck = /(?=.{8,})/;
+            const uppercaseCheck = /(?=.*[A-Z])/;
+            const lowercaseCheck = /(?=.*[a-z])/;
+            const digitCheck = /(?=.*\d)/;
+            const specialCheck = /(?=.[@$!%?&])/;
+
+            return {
+                lengthValid: lengthCheck.test(password),
+                uppercaseValid: uppercaseCheck.test(password),
+                lowercaseValid: lowercaseCheck.test(password),
+                digitValid: digitCheck.test(password),
+                specialValid: specialCheck.test(password)
+            };
+        }
+
+        function updateFeedback(validation) {
+            document.getElementById('length-feedback').classList.toggle('valid', validation.lengthValid);
+            document.getElementById('length-feedback').textContent = validation.lengthValid ? 'Length requirement met.' : 'Password must be at least 8 characters long.';
+            document.getElementById('uppercase-feedback').classList.toggle('valid', validation.uppercaseValid);
+            document.getElementById('uppercase-feedback').textContent = validation.uppercaseValid ? 'Uppercase requirement met.' : 'Password must contain at least one uppercase letter.';
+            document.getElementById('lowercase-feedback').classList.toggle('valid', validation.lowercaseValid);
+            document.getElementById('lowercase-feedback').textContent = validation.lowercaseValid ? 'Lowercase requirement met.' : 'Password must contain at least one lowercase letter.';
+            document.getElementById('digit-feedback').classList.toggle('valid', validation.digitValid);
+            document.getElementById('digit-feedback').textContent = validation.digitValid ? 'Digit requirement met.' : 'Password must contain at least one digit.';
+            document.getElementById('special-feedback').classList.toggle('valid', validation.specialValid);
+            document.getElementById('special-feedback').textContent = validation.specialValid ? 'Special character requirement met.' : 'Password must contain at least one special character (@$!%*?&).';
+        }
+
+        document.getElementById('reset-password-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            const validation = validatePassword(newPassword);
+            updateFeedback(validation);
+
+            if (validation.lengthValid && validation.uppercaseValid && validation.lowercaseValid && validation.digitValid && validation.specialValid) {
+                alert('Password reset successfully');
+                setTimeout(() => {
+                    // Simulate redirect to login page
+                    window.location.href = '/welcome.html';
+                }, 2000);
+            } else {
+                alert('Password does not meet all requirements.');
+            }
+        });
+    </script>
+</body>
+
+</html>
