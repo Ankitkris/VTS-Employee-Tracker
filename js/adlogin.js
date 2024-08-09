@@ -57,7 +57,7 @@ function validateLogin() {
     if (document.querySelector('.passcode-group').classList.contains('active')) {
         // Passcode validation
         if (!regexPasscode.test(passcode)) {
-            passcodeError.textContent = 'Passcode must be exactly 6 digits.';
+            passcodeError.textContent = 'Please Enter Valid Passcode';
             passcodeError.style.display = 'block';
             return;
         } else {
