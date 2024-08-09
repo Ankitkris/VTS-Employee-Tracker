@@ -45,6 +45,7 @@ function validateLogin() {
     passcodeError.textContent = '';
     passwordError.style.display = 'none';
     passwordError.textContent = '';
+    passwordRequirements.classList.add('hidden');
 
     // Regular expression to match exactly 6 digits
     const regexPasscode = /^\d{6}$/;
@@ -70,14 +71,24 @@ function validateLogin() {
             }
         }
     } else if (document.querySelector('.userid-group').classList.contains('active')) {
-        // Show password requirements
-        passwordRequirements.classList.remove('hidden');
-
         // User ID and Password validation
-        if (!empIdPattern.test(empId)) {
-            errorMessage.textContent = 'Please enter a valid EmpId.';
+        if (empId === '' && password === '') {
+            errorMessage.textContent = 'Invalid Employee ID or password.';
             errorMessage.style.display = 'block';
             return;
+        } else if (empId === '' || !empIdPattern.test(empId)) {
+            errorMessage.textContent = 'Please enter a valid Employee ID.';
+            errorMessage.style.display = 'block';
+            return;
+        } else if (password === '') {
+            passwordError.textContent = 'Please enter your valid password.';
+            passwordError.style.display = 'block';
+            return;
+        } else {
+            // Show password requirements only if the EmpId is valid
+            if (empIdPattern.test(empId)) {
+                passwordRequirements.classList.remove('hidden');
+            }
         }
 
         // Password validation criteria
@@ -87,52 +98,23 @@ function validateLogin() {
         const digitCheck = /(?=.*\d)/;
         const specialCheck = /(?=.*[@$!%*?&])/;
 
-        let isValid = true;
-        if (!lengthCheck.test(password)) {
-            document.getElementById('length-check').style.color = 'red';
-            isValid = false;
-        } else {
-            document.getElementById('length-check').style.color = 'green';
-        }
-        if (!uppercaseCheck.test(password)) {
-            document.getElementById('uppercase-check').style.color = 'red';
-            isValid = false;
-        } else {
-            document.getElementById('uppercase-check').style.color = 'green';
-        }
-        if (!lowercaseCheck.test(password)) {
-            document.getElementById('lowercase-check').style.color = 'red';
-            isValid = false;
-        } else {
-            document.getElementById('lowercase-check').style.color = 'green';
-        }
-        if (!digitCheck.test(password)) {
-            document.getElementById('digit-check').style.color = 'red';
-            isValid = false;
-        } else {
-            document.getElementById('digit-check').style.color = 'green';
-        }
-        if (!specialCheck.test(password)) {
-            document.getElementById('special-check').style.color = 'red';
-            isValid = false;
-        } else {
-            document.getElementById('special-check').style.color = 'green';
-        }
-
-        if (!isValid) {
-            errorMessage.textContent = 'Please meet all password requirements.';
-            errorMessage.style.display = 'block';
+        if (!lengthCheck.test(password) || 
+            !uppercaseCheck.test(password) || 
+            !lowercaseCheck.test(password) || 
+            !digitCheck.test(password) || 
+            !specialCheck.test(password)) {
+            passwordError.textContent = 'Please enter a valid password.';
+            passwordError.style.display = 'block';
             return;
-        } else {
-            // Simulate a successful login for demonstration purposes
-            if (empId === 'VTS2222222' && password === 'Password123!') { // Replace with actual login logic
-                alert('Login successful!');
-                window.location.href = '../html/admdashboard.html'; 
+        }
 
-            } else {
-                errorMessage.textContent = 'Invalid Employee ID or password.';
-                errorMessage.style.display = 'block';
-            }
+        // Simulate a successful login for demonstration purposes
+        if (empId === 'VTS2222222' && password === 'Password123!') { // Replace with actual login logic
+            alert('Login successful!');
+            window.location.href = '../html/admdashboard.html';
+        } else {
+            errorMessage.textContent = 'Invalid Employee ID or password.';
+            errorMessage.style.display = 'block';
         }
     }
 }

@@ -8,9 +8,22 @@
     <link rel="stylesheet" href="../css/adlogin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Add this CSS to hide the password requirements initially */
+        /* Hide the password requirements initially */
         .password-requirements.hidden {
             display: none;
+        }
+
+        /* Additional styling for hidden elements */
+        .hidden {
+            display: none;
+        }
+
+        .form-group {
+            display: none;
+        }
+
+        .form-group.active {
+            display: block;
         }
     </style>
 </head>
@@ -32,6 +45,7 @@
                 <input type="number" id="passcode" placeholder="Passcode" minlength="6" maxlength="6" pattern="\d{6}">
                 <div id="passcodeError" class="error-message"></div>
             </div>
+
             <div class="form-group userid-group">
                 <input type="text" id="empId" placeholder="Employee Id">
                 <div class="password-container">
@@ -42,12 +56,6 @@
                 </div>
                 <div id="passwordError" class="error-message"></div>
                 <div class="password-requirements hidden">
-                    <p>Password must:</p>
-                    <span id="length-check" class="requirement">Be at least 8 characters long</span><br>
-                    <span id="uppercase-check" class="requirement">Contain at least one uppercase letter</span><br>
-                    <span id="lowercase-check" class="requirement">Contain at least one lowercase letter</span><br>
-                    <span id="digit-check" class="requirement">Contain at least one digit</span><br>
-                    <span id="special-check" class="requirement">Contain at least one special character</span>
                 </div>
             </div>
 
