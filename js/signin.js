@@ -62,6 +62,7 @@ function validateEmail(email) {
 
 function validateForm() {
     const empId = document.getElementById('empId').value;
+    const fullName = document.getElementById('fname').value;
     const email = document.getElementById('email').value;
     const newPassword = document.getElementById('new-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
@@ -74,6 +75,15 @@ function validateForm() {
         return false;
     } else {
         document.getElementById('empId-feedback').style.display = 'none';
+    }
+
+    if (fullName.trim() === '') {
+        document.getElementById('full-name-feedback').style.display = 'block';
+        document.getElementById('full-name-feedback').textContent = 'Full Name is required';
+        document.getElementById('fname').focus();
+        return false;
+    } else {
+        document.getElementById('full-name-feedback').style.display = 'none';
     }
 
     // Validate Email
@@ -113,7 +123,7 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
         alert('Employee Id Registered');
         setTimeout(() => {
             // Simulate redirect to login page
-            window.location.href = '/welcome.html';
+            window.location.href = '../html/welcome.html';
         }, 2000);
     }
 });

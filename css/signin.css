@@ -89,7 +89,7 @@ button:hover {
     color: black;
 }
 
-.validation-feedback {
+.validation-feedback, #full-name-feedback{
     text-align: left;
     color: red;
     font-size: 14px;

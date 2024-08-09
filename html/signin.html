@@ -13,7 +13,11 @@
         <div class="password-container">
             <input type="text" id="empId" placeholder="Employee ID" required />
             <div class="validation-feedback" id="empId-feedback"></div>
-            <input type="text" id="fname" placeholder="Full Name" required />
+            <!-- <input type="text" id="fname" placeholder="Full Name" required /> -->
+            <div class="form-group">
+                <input type="text" id="fname" placeholder="Full Name" required />
+                <div id="full-name-feedback" class="error-message" style="display:none;"></div>
+            </div>
             <input type="email" id="email" placeholder="Email Id" required />
             <div class="validation-feedback" id="email-feedback"></div>
         </div>
