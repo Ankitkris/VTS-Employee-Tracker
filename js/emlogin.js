@@ -121,7 +121,7 @@ function validateLogin() {
     if (document.querySelector('.passcode-group').classList.contains('active')) {
         if (passcode === '123456') { // Replace with actual passcode logic
             alert('Login successful with Passcode!');
-            // Redirect or handle successful login here
+            window.location.href = '../html/empdashboard.html'; 
         } else {
             passcodeError.textContent = 'Invalid passcode.';
             passcodeError.style.display = 'block';
@@ -129,9 +129,9 @@ function validateLogin() {
     } else if (document.querySelector('.userid-group').classList.contains('active')) {
         if (empId === 'VTS2222222' && password === 'Password123!') { // Replace with actual login logic
             alert('Login successful!');
-            // Redirect or handle successful login here
+            window.location.href = '../html/empdashboard.html'; 
         } else {
-            errorMessage.textContent = 'Invalid EmployeeId or password.';
+            errorMessage.textContent = 'Invalid Employee Id or password.';
             errorMessage.style.display = 'block';
         }
     }
