@@ -57,7 +57,7 @@ function validateLogin() {
     if (document.querySelector('.passcode-group').classList.contains('active')) {
         // Passcode validation
         if (!regexPasscode.test(passcode)) {
-            passcodeError.textContent = 'Please Enter Valid Passcode';
+            passcodeError.textContent = 'Please enter valid passcode.';
             passcodeError.style.display = 'block';
             return;
         } else {
@@ -85,27 +85,8 @@ function validateLogin() {
             passwordError.style.display = 'block';
             return;
         } else {
-            // Show password requirements only if the EmpId is valid
-            if (empIdPattern.test(empId)) {
-                passwordRequirements.classList.remove('hidden');
-            }
-        }
-
-        // Password validation criteria
-        const lengthCheck = /(?=.{8,})/;
-        const uppercaseCheck = /(?=.*[A-Z])/;
-        const lowercaseCheck = /(?=.*[a-z])/;
-        const digitCheck = /(?=.*\d)/;
-        const specialCheck = /(?=.*[@$!%*?&])/;
-
-        if (!lengthCheck.test(password) || 
-            !uppercaseCheck.test(password) || 
-            !lowercaseCheck.test(password) || 
-            !digitCheck.test(password) || 
-            !specialCheck.test(password)) {
-            passwordError.textContent = 'Please enter a valid password.';
-            passwordError.style.display = 'block';
-            return;
+            // Hide password requirements initially
+            passwordRequirements.classList.add('hidden');
         }
 
         // Simulate a successful login for demonstration purposes
