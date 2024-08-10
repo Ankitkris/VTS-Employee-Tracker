@@ -17,7 +17,7 @@ function validatePassword(password) {
     const uppercaseCheck = /(?=.*[A-Z])/;
     const lowercaseCheck = /(?=.*[a-z])/;
     const digitCheck = /(?=.*\d)/;
-    const specialCheck = /(?=.*[@$!%*?&])/;
+    const specialCheck = /(?=.[@$!%?&])/;
 
     return {
         lengthValid: lengthCheck.test(password),
@@ -28,26 +28,26 @@ function validatePassword(password) {
     };
 }
 
-function updateFeedback(validation) {
-    document.getElementById('length-feedback').classList.toggle('valid', validation.lengthValid);
-    document.getElementById('length-feedback').textContent = validation.lengthValid ? 'Length requirement met.' : 'Password must be at least 8 characters long.';
-    document.getElementById('length-feedback').style.display = validation.lengthValid ? 'block' : 'none';
+function gatherUnmetRequirements(validation) {
+    const unmetRequirements = [];
 
-    document.getElementById('uppercase-feedback').classList.toggle('valid', validation.uppercaseValid);
-    document.getElementById('uppercase-feedback').textContent = validation.uppercaseValid ? 'Uppercase requirement met.' : 'Password must contain at least one uppercase letter.';
-    document.getElementById('uppercase-feedback').style.display = validation.uppercaseValid ? 'block' : 'none';
+    if (!validation.lengthValid) {
+        unmetRequirements.push('Password must be at least 8 characters long.');
+    }
+    if (!validation.uppercaseValid) {
+        unmetRequirements.push('Password must contain at least one uppercase letter.');
+    }
+    if (!validation.lowercaseValid) {
+        unmetRequirements.push('Password must contain at least one lowercase letter.');
+    }
+    if (!validation.digitValid) {
+        unmetRequirements.push('Password must contain at least one digit.');
+    }
+    if (!validation.specialValid) {
+        unmetRequirements.push('Password must contain at least one special character (@$!%*?&).');
+    }
 
-    document.getElementById('lowercase-feedback').classList.toggle('valid', validation.lowercaseValid);
-    document.getElementById('lowercase-feedback').textContent = validation.lowercaseValid ? 'Lowercase requirement met.' : 'Password must contain at least one lowercase letter.';
-    document.getElementById('lowercase-feedback').style.display = validation.lowercaseValid ? 'block' : 'none';
-
-    document.getElementById('digit-feedback').classList.toggle('valid', validation.digitValid);
-    document.getElementById('digit-feedback').textContent = validation.digitValid ? 'Digit requirement met.' : 'Password must contain at least one digit.';
-    document.getElementById('digit-feedback').style.display = validation.digitValid ? 'block' : 'none';
-
-    document.getElementById('special-feedback').classList.toggle('valid', validation.specialValid);
-    document.getElementById('special-feedback').textContent = validation.specialValid ? 'Special character requirement met.' : 'Password must contain at least one special character (@$!%*?&).';
-    document.getElementById('special-feedback').style.display = validation.specialValid ? 'block' : 'none';
+    return unmetRequirements;
 }
 
 function validateEmpId(empId) {
@@ -77,6 +77,7 @@ function validateForm() {
         document.getElementById('empId-feedback').style.display = 'none';
     }
 
+    // Validate Full Name
     if (fullName.trim() === '') {
         document.getElementById('full-name-feedback').style.display = 'block';
         document.getElementById('full-name-feedback').textContent = 'Full Name is required';
@@ -98,22 +99,45 @@ function validateForm() {
 
     // Validate Password Match
     if (newPassword !== confirmPassword) {
-        alert('Passwords do not match');
-        document.getElementById('confirm-password').focus();
+        document.getElementById('confirm-password').setCustomValidity('Passwords do not match');
+        document.getElementById('confirm-password').reportValidity();
         return false;
+    } else {
+        document.getElementById('confirm-password').setCustomValidity('');
     }
 
     // Validate Password
     const validation = validatePassword(newPassword);
-    updateFeedback(validation);
+    const allRequirementsMet = validation.lengthValid && validation.uppercaseValid && validation.lowercaseValid && validation.digitValid && validation.specialValid;
 
-    if (validation.lengthValid && validation.uppercaseValid && validation.lowercaseValid && validation.digitValid && validation.specialValid) {
-        return true;
-    } else {
-        alert('Please meet all the password requirements');
+    // Show or hide password requirements
+    const passwordRequirementsContainer = document.getElementById('password-requirements');
+    const feedbackElements = passwordRequirementsContainer.getElementsByClassName('validation-feedback');
+
+    if (!allRequirementsMet) {
+        // Gather unmet requirements
+        const unmetRequirements = gatherUnmetRequirements(validation);
+
+        // Display unmet requirements in the container
+        for (let i = 0; i < feedbackElements.length; i++) {
+            if (unmetRequirements[i]) {
+                feedbackElements[i].textContent = unmetRequirements[i];
+                feedbackElements[i].style.display = 'block';
+            } else {
+                feedbackElements[i].style.display = 'none';
+            }
+        }
+        passwordRequirementsContainer.style.display = 'block';
+
+        // Focus on password field
         document.getElementById('new-password').focus();
         return false;
+    } else {
+        // Hide password requirements if all are met
+        passwordRequirementsContainer.style.display = 'none';
     }
+
+    return true;
 }
 
 document.getElementById('reset-password-form').addEventListener('submit', function (event) {
@@ -129,10 +153,8 @@ document.getElementById('reset-password-form').addEventListener('submit', functi
 });
 
 document.getElementById('new-password').addEventListener('input', function () {
-    const newPassword = this.value;
-    const validation = validatePassword(newPassword);
-    updateFeedback(validation);
-    document.getElementById('password-requirements').style.display = 'block'; // Show requirements when typing
+    // During typing, hide feedback
+    updateFeedback({}); // Hide all feedback during typing
 });
 
 document.getElementById('confirm-password').addEventListener('input', function () {

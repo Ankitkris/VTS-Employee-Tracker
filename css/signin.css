@@ -11,8 +11,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: rgb(2,0,36);
-    background: linear-gradient(165deg, rgba(2,0,36,1) 0%, rgba(210,182,255,1) 0%, rgba(115,103,240,1) 74%);
+    background: rgb(2, 0, 36);
+    background: linear-gradient(165deg, rgba(2, 0, 36, 1) 0%, rgba(210, 182, 255, 1) 0%, rgba(115, 103, 240, 1) 74%);
 }
 
 .form-container {
@@ -59,6 +59,7 @@ button {
     transition: background-color 0.3s;
     display: block;
     margin: 0 auto;
+    margin-bottom: 15px;
 }
 
 button:hover {
@@ -79,37 +80,40 @@ button:hover {
     color: #5e057e;
 }
 
-
-
-
-
 .form-footer {
     text-align: center;
     margin-top: 50px;
     color: black;
 }
 
-.validation-feedback, #full-name-feedback{
+#password-requirements {
     text-align: left;
+    margin-top: 10px;
+    color: black;
+}
+
+.validation-feedback, #full-name-feedback {
     color: red;
     font-size: 14px;
-    margin-top: -12px;
-    margin-bottom: 20px;
-    font-size: 10px;
-    margin-left: 20px;
-    display: none; /* Hide feedback messages initially */
+    margin: 5px 0;
+    display: none;
+    /* Hidden by default */
 }
 
 .validation-feedback.valid {
     color: green;
 }
 
-#password-requirements {
-    display: none; /* Hide password requirements initially */
+.feedback {
+    display: none;
+    font-size: 14px;
+    margin: 5px 0;
 }
 
-.btn{
-    padding: 15px;
-    margin-bottom: 30px;
-    width: 90%;
+.feedback.valid {
+    color: green;
+}
+
+.feedback.invalid {
+    color: red;
 }
