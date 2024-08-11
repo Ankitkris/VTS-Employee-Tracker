@@ -117,3 +117,9 @@ button:hover {
 .feedback.invalid {
     color: red;
 }
+
+.btn{
+    padding: 15px;
+    margin-bottom: 30px;
+    width: 90%;
+}
